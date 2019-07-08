@@ -1,0 +1,2 @@
+class FollowerTopicsController < ApplicationController
+end
