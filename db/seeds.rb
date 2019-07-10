@@ -7,19 +7,38 @@
 # Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user_1 = User.create(user_name: "seline", pic: "https://farm1.static.flickr.com/79/248060017_077765ec1e.jpg")
 
-topic_1 = Topic.create(title: "Climate Change")
-topic_2 = Topic.create(title: "Vampire Registration")
+user_array = []
+for i in 1..3 do
+  user_array << User.create(user_name: "seline #{i}", pic: "https://farm1.static.flickr.com/79/248060017_077765ec1e.jpg")
+end
+user_sample = user_array.sample(20)
 
-follower_1 = Follower.create(name: "Blanche", pic: "https://cache.legacy.net/legacy/images/cobrands/GreatFallsTribune/photos/12-14obsyverson_12142010.jpg", age: 42, location: "Anytown Ohio" )
-follower_2 = Follower.create(name: "Blanche", pic: "https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fnowthisiswhatiwouldcallmusic.files.wordpress.com%2F2017%2F03%2Fnintchdbpict0003074492041.jpg&f=1", age: 42, location: "Anytown Ohio" )
+follower_array = []
+for i in 1..100 do
+  follower_array << Follower.create(name: "Blanche #{i}", pic: "https://cache.legacy.net/legacy/images/cobrands/GreatFallsTribune/photos/12-14obsyverson_12142010.jpg", age: 42, location: "Anytown Ohio" )
+end
 
+topic_array = []
+topic_array << Topic.create(title: "Climate Change")
+topic_array << Topic.create(title: "Vampire Registration")
+topic_array << Topic.create(title: "Kittens")
+topic_array << Topic.create(title: "Fight Club")
+topic_array << Topic.create(title: "My favorite movie is The Notebook")
+topic_array << Topic.create(title: "Taxes")
+topic_array << Topic.create(title: "Love of kites")
+topic_array << Topic.create(title: "Love of karts")
+topic_array << Topic.create(title: "Love of kmart")
+topic_array << Topic.create(title: "Love of curling")
 
+for i in 0..2
+  for j in 0..4
+    user_array[i].topics << topic_array[rand 0..9]
+  end
+end
 
-user_1.topics << topic_1
-follower_1.topics << topic_1
-
-user_1.topics << topic_2
-follower_1.topics << topic_2
-follower_2.topics << topic_2
+for i in 0..30
+  for j in 0..4
+    follower_array[i].topics << topic_array[rand 0..9]
+  end
+end
