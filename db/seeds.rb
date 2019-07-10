@@ -31,11 +31,11 @@ topic_array << Topic.create(title: "Love of karts")
 topic_array << Topic.create(title: "Love of kmart")
 topic_array << Topic.create(title: "Love of curling")
 
-for i in 0..2
-  for j in 0..4
-    user_array[i].topics << topic_array[rand 0..9]
-  end
-end
+# for i in 0..2
+#   for j in 0..4
+#     user_array[i].topics << topic_array[rand 0..9]
+#   end
+# end
 
 for i in 0..30
   for j in 0..4

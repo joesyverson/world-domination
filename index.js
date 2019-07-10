@@ -6,12 +6,15 @@
 document.addEventListener('DOMContentLoaded', displayPlayers)
 
 function topicHandler(e){
+  // debugger
   if (e.target.value === "on"){
     fetchCreateTopic(e)
     // .then(displayPlayers(json))
+    e.target.value = "off"
   } else {
     fetchDeleteTopic(e)
     // .then(displayPlayers(json))
+    e.target.value = "on"
   }
 }
 
@@ -22,25 +25,38 @@ function fetchTopics(){
 }
 
 function fetchCreateTopic(e){
+  // debugger
   const config = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      topic_id: `${e.target.dataset.id}`,
+      topic_id: `${e.target.dataset.topicid}`,
       user_id: `${e.target.parentElement.parentElement.parentElement.dataset.id}`
     })
   }
   return fetch('http://localhost:3000/user_topics', config)
-  // .then(resp => resp.json)
+    .then(response => response.json())
+  .then((json) => createUserTopicData(json, e))
 }
 
-function fetchDeleteTopic(e){
 
+
+function fetchDeleteTopic(e){
+  // debugger
+  const id = e.target.dataset.userTopicId
+  const config = {
+    method: "DELETE"
+  }
+    fetch(`http://localhost:3000/user_topics/${id}`, config)
 }
 
 function fetchPlayers(){
   return fetch('http://localhost:3000/users')
   .then(resp => resp.json())
+}
+
+function fetchPlayer(id) {
+  return fetch(`http://localhost:3000/users/${id}`).then((resp) => resp.json())
 }
 
 //Update DOM
@@ -60,7 +76,8 @@ function slapTopicsToDOM(topics){
       li.innerHTML = topic.title
       checkbox.type = "checkbox"
       checkbox.id = `${topic.title} p${i+1}`
-      checkbox.dataset.id = topic.id
+      checkbox.dataset.topicid = topic.id
+      checkbox.dataset.userTopicId = 0
       li.append(checkbox)
       ul.append(li)
 
@@ -88,6 +105,11 @@ function displayPlayers(){
     })
     displayTopics()
   })
+}
+
+function createUserTopicData(json, e) {
+  e.target.dataset.userTopicId = json.id
+  // debugger
 }
 
 //Logic

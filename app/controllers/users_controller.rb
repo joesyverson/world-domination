@@ -16,7 +16,7 @@ class UsersController < ApplicationController
         end.uniq
       }
     end
-    render json: {user_name: user.user_name,  pic: user.pic, followers: new_followers}
+    render json: {id: user.id, user_name: user.user_name,  pic: user.pic, topics: topics, followers: new_followers}
     # render json: followers
   end
 
