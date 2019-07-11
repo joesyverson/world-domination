@@ -4,26 +4,26 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script type="text/javascript" src='index.js' defer></script>
   </head>
   <body>
     <header>
-      <h1>World Domination</h1>
-      <h3 id="rounds-remaining">Rounds Remaining: </h3>
-      <p id='user-message'></p>
+      <h1 class="game-title">W &nbsp;O &nbsp;R &nbsp;L &nbsp;D &ensp; D &nbsp;O &nbsp;M &nbsp;I &nbsp;N &nbsp;A &nbsp;T &nbsp;I &nbsp;O &nbsp;N</h1>
       <div class="buttons">
-        <button id="submit-turn" type="button" name="button">End Turn</button>
-        <button id="reset-btn" type="button" name="button">Reset Game</button>
+        <h3 class="header-elements" id="rounds-remaining">Rounds Remaining: </h3>
+        <p class="header-elements" id='user-message'>Hello World</p>
+        <button class="header-elements" id="submit-turn" type="button" name="button">End Turn</button>
+        <button class="header-elements" id="reset-btn" type="button" name="button">Reset Game</button>
       </div>
     </header>
 
     <div class="grid-container">
-      <div id="grid-item chart">
-        <p> Player 1 Power: <span id="power-1">0</span> </p>
-        <p> Player 2 Power: <span id="power-2">0</span> </p>
-        <p> Player 3 Power: <span id="power-3">0</span> </p>
-
-
+      <div class="grid-item" id="chart">
+        <h2>Power Ranking:</h2>
+        <p class="stats"> Player 1 Power: <span id="power-1">0</span> </p>
+        <p class="stats"> Player 2 Power: <span id="power-2">0</span> </p>
+        <p class="stats"> Player 3 Power: <span id="power-3">0</span> </p>
       </div>
     </div>
 

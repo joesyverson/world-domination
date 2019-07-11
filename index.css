@@ -1,4 +1,89 @@
+html {
+  height: 100vh;
+}
+
+body {
+  height: 97vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+    background-color: purple;
+    margin: 1vw;
+    padding: 3vw;
+    /* clear: both; */
+}
+
 .grid-container {
+  /* height: 100vh; */
   display: grid;
   grid-template-columns: auto auto;
+}
+
+.grid-item {
+  /* height: 50%; */
+  background-color: red;
+  margin: 1vw;
+  padding: 5vw;
+  /* border: 15px; */
+}
+
+.buttons {
+  display: flex;
+  /* display: inline-grid; */
+  grid-template-columns: auto auto auto auto;
+  justify-content: center;
+  /* text-align: right; */
+  /* float: right; */
+  /* clear: both; */
+}
+
+.header-elements {
+  background-color: green;
+  align: center;
+  margin: 3vw
+}
+
+.stats {
+  text-align: center;
+}
+
+.game-title {
+  text-align: center;
+}
+
+#rounds-remaining {
+  padding: 1vw;
+  /* display: inline; */
+  /* text-align: left;
+  float: left; */
+  /* clear: both; */
+}
+
+#user-message {
+  text-align: right;
+  padding: 1.5vw;
+}
+
+#submit-turn {
+  /* float: right; */
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#reset-btn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }

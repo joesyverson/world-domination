@@ -138,19 +138,19 @@ function displayTopics(){
 function displayPlayers(){
   deleteJoinHandler()
   roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
+  let i = 3;
   fetchPlayers().then(function(playerList){
     playerList.forEach(function(player){
-
       const playerDiv = document.createElement('div')
       const heading = document.createElement('h2')
       const ul = document.createElement('ul')
-      heading.innerHTML = `Player ${player.user_name}`
+      heading.innerHTML = `Player ${i}`
       playerDiv.className = "grid-item players"
       playerDiv.dataset.id = player.id
       playerDiv.append(heading)
       playerDiv.append(ul)
       gridder.prepend(playerDiv)
-
+      i -= 1
     })
     displayTopics()
   })
@@ -221,5 +221,3 @@ function gameOver(){
     talkToUser('Draw: Player 2 and Player 3')
   }
 }
-
-function resetGame
