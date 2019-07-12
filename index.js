@@ -195,11 +195,9 @@ function alertUserTurnCount(e){
 
 function resetCheckBoxes(){
   const checkboxes = document.querySelectorAll('input')
-  // const boxArray = []
   checkboxes.forEach(function(box){
-    if (box.checked === true) {
-      box.checked = false
-    }
+    box.checked = false
+    box.value = "on"
   })
 }
 
@@ -265,5 +263,5 @@ function resetGame(){
   turnCountToDOM()
   deleteUserTopicsHandler()
   resetPlayerPowerInSpan()
-  // reseedData()
+  reseedData()
 }
