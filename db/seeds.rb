@@ -20,22 +20,23 @@ for i in 1..100 do
 end
 
 topic_array = []
-topic_array << Topic.create(title: "Climate Change")
-topic_array << Topic.create(title: "Vampire Registration")
+topic_array << Topic.create(title: "Climate Change Is Human-Caused")
+topic_array << Topic.create(title: "Freedom of Hate Speech")
+topic_array << Topic.create(title: "Pro-Choice")
+topic_array << Topic.create(title: "Pro-Life")
+topic_array << Topic.create(title: "Raise Taxes on the Poor")
 topic_array << Topic.create(title: "Voter Fraud")
-topic_array << Topic.create(title: "Fight Club")
 topic_array << Topic.create(title: "LGBT Adoption")
-topic_array << Topic.create(title: "Raise Taxes")
-topic_array << Topic.create(title: "Religious Freedom")
-topic_array << Topic.create(title: "Aliens")
-topic_array << Topic.create(title: "Guns or whatever")
-topic_array << Topic.create(title: "Clowns")
+topic_array << Topic.create(title: "Alien Dissection for the Purose of Scientific Progress")
+topic_array << Topic.create(title: "Bernie")
+topic_array << Topic.create(title: "Skynet")
+topic_array << Topic.create(title: "Studnet")
 topic_array << Topic.create(title: "Freer Beer")
-topic_array << Topic.create(title: "Pugs aren't that cute")
-topic_array << Topic.create(title: "I am the smartest")
-topic_array << Topic.create(title: "What does that even mean?")
-topic_array << Topic.create(title: "I should go to sleep")
-topic_array << Topic.create(title: "Please.... please stop")
+topic_array << Topic.create(title: "Lynard Skynard")
+topic_array << Topic.create(title: "Pugs Aren't That Cute")
+topic_array << Topic.create(title: "Cannibalism")
+topic_array << Topic.create(title: "I Should Go to Sleep")
+
 
 len = topic_array.length
 # for i in 0..2
