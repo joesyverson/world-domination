@@ -146,8 +146,12 @@ function displayPlayers(){
       const ul = document.createElement('ul')
       const br = document.createElement('br')
       heading.className = 'player-heading'
-      heading.innerHTML = `Player ${i}`
-      playerDiv.className = "grid-item players"
+      heading.innerHTML = `Politican ${i}`
+      if(i % 2 == 0) {
+        playerDiv.className = `grid-item players right`
+      } else {
+        playerDiv.className = `grid-item players left`        
+      }
       playerDiv.dataset.id = player.id
       playerDiv.append(heading)
       playerDiv.append(br)
