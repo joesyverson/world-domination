@@ -30,15 +30,17 @@ topic_array << Topic.create(title: "Religious Freedom")
 topic_array << Topic.create(title: "Aliens")
 topic_array << Topic.create(title: "Guns or whatever")
 topic_array << Topic.create(title: "Clowns")
+topic_array << Topic.create(title: "Freer Beer")
+topic_array << Topic.create(title: "Pugs aren't that cute")
+topic_array << Topic.create(title: "I am the smartest")
+topic_array << Topic.create(title: "What does that even mean?")
+topic_array << Topic.create(title: "I should go to sleep")
+topic_array << Topic.create(title: "Please.... please stop")
 
-for i in 0..2
-  for j in 0..4
-    user_array[i].topics << topic_array[rand 0..9]
-  end
-end
+# for i in 0..2
+  # user_array[i].topics << topic_array[rand 0..9]
+# end
 
-for i in 0..30
-  for j in 0..4
-    follower_array[i].topics << topic_array[rand 0..9]
-  end
+for i in 0..80
+  follower_array[i].topics << topic_array[rand 0..16]
 end
