@@ -22,23 +22,26 @@ end
 topic_array = []
 topic_array << Topic.create(title: "Climate Change")
 topic_array << Topic.create(title: "Vampire Registration")
-topic_array << Topic.create(title: "Kittens")
+topic_array << Topic.create(title: "Voter Fraud")
 topic_array << Topic.create(title: "Fight Club")
-topic_array << Topic.create(title: "My favorite movie is The Notebook")
-topic_array << Topic.create(title: "Taxes")
-topic_array << Topic.create(title: "Love of kites")
-topic_array << Topic.create(title: "Love of karts")
-topic_array << Topic.create(title: "Love of kmart")
-topic_array << Topic.create(title: "Love of curling")
+topic_array << Topic.create(title: "LGBT Adoption")
+topic_array << Topic.create(title: "Raise Taxes")
+topic_array << Topic.create(title: "Religious Freedom")
+topic_array << Topic.create(title: "Aliens")
+topic_array << Topic.create(title: "Guns or whatever")
+topic_array << Topic.create(title: "Clowns")
+topic_array << Topic.create(title: "Freer Beer")
+topic_array << Topic.create(title: "Pugs aren't that cute")
+topic_array << Topic.create(title: "I am the smartest")
+topic_array << Topic.create(title: "What does that even mean?")
+topic_array << Topic.create(title: "I should go to sleep")
+topic_array << Topic.create(title: "Please.... please stop")
 
+len = topic_array.length
 # for i in 0..2
-#   for j in 0..4
-#     user_array[i].topics << topic_array[rand 0..9]
-#   end
+  # user_array[i].topics << topic_array[rand 0..9]
 # end
 
-for i in 0..30
-  for j in 0..4
-    follower_array[i].topics << topic_array[rand 0..9]
-  end
+for i in 0..80
+  follower_array[i].topics << topic_array[rand 0..len]
 end
