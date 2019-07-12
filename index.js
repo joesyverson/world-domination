@@ -6,10 +6,7 @@ const roundsRemaining = document.querySelector('#rounds-remaining')
 const resetBtn = document.querySelector('#reset-btn')
 let userMessage = document.querySelector('#user-message')
 btn.addEventListener('click', turnUpdate)
-let player1 = {}
-let player2 = {}
-let player3 = {}
-// resetBtn.addEventListener('click', resetGame)
+resetBtn.addEventListener('click', resetGame)
 
 const maxTurns = 4
 const maxMoves = 3
@@ -18,9 +15,9 @@ let playerMoves = {1: maxMoves, 2: maxMoves, 3: maxMoves}
 let playerPower = {1: 0, 2: 0, 3: 0}
 
 //----------------Event Listeners / Handlers
-document.addEventListener('DOMContentLoaded', displayPlayers)
+document.addEventListener('DOMContentLoaded', initializeDom)
 
-function topicHandler(e){
+function handleBoxClick(e){
   const playerID = e.target.parentElement.parentElement.parentElement.dataset.id
   if (playerID === "1"){
     if (playerMoves[1] > 0){
@@ -44,12 +41,23 @@ function topicHandler(e){
 }
 
 //----------------Fetch
+function fetchPlayers(){
+  return fetch('http://localhost:3000/users')
+  .then(resp => resp.json())
+}
+function fetchPlayer(id) {
+  return fetch(`http://localhost:3000/users/${id}`).then((resp) => resp.json())
+}
+
 function fetchTopics(){
   return fetch('http://localhost:3000/topics')
   .then(resp => resp.json())
 }
 
-function fetchCreateTopic(e){
+function fetchUserTopics(){
+  return fetch("http://localhost:3000/user_topics").then((resp) => resp.json())
+}
+function fetchCreateUserTopic(e){
   const config = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -60,111 +68,82 @@ function fetchCreateTopic(e){
   }
   return fetch('http://localhost:3000/user_topics', config)
     .then(response => response.json())
-  .then((json) => createUserTopicData(json, e))
+  .then((json) => addUserTopicDataSetToBox(json, e))
 }
-
-function updateCreatePlayerTopic(boxArray){
-  boxArray.forEach(function(box){
-    // debugger
-    fetch('http://localhost:3000/user_topics', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        topic_id: `${box.dataset.topicid}`,
-        user_id: `${box.id.slice(-1)}`
-      })
-    })
-    .then(linkToChart())
-  })
-  // .then(response => response.json())
-  // .then(displayChart)
-  // .then((json) => createUserTopicData(json, e))
-}
-
-function fetchDeleteTopic(e){
+function fetchDeleteUserTopic(e){
   const id = e.target.dataset.userTopicId
   const config = {
     method: "DELETE"
   }
-    fetch(`http://localhost:3000/user_topics/${id}`, config)
+  fetch(`http://localhost:3000/user_topics/${id}`, config)
 }
-
-function fetchPlayers(){
-  return fetch('http://localhost:3000/users')
-  .then(resp => resp.json())
-}
-
-function fetchPlayer(id) {
-  return fetch(`http://localhost:3000/users/${id}`).then((resp) => resp.json())
-}
-
-function getFollowers(index){
-  return fetchPlayer(index)
-}
-
-function fetchJoins(){
-  return fetch("http://localhost:3000/user_topics").then((resp) => resp.json())
-}
-
-function fetchFollowerTopics(){
-  return fetch("http://localhost:3000/follower_topics").then((resp) => resp.json())
-}
-
-function joinIdArray(user_topics){
-  return joinArray = user_topics.map(function(user_topic){
-    return user_topic.id
-  })
-}
-
-function deleteJoins(arrayIds){
+function fetchDeleteUserTopics(arrayIds){
   arrayIds.forEach(function(id){
     fetch(`http://localhost:3000/user_topics/${id}`, {
       method: 'DELETE'
     })
   })
 }
+function deleteUserTopicsHandler(){
+  return fetchUserTopics().then((json) => convertTopicOBJsToIdArray(json)).then((array) => fetchDeleteUserTopics(array))
+}
+function convertTopicOBJsToIdArray(user_topics){
+  return joinArray = user_topics.map(function(user_topic){
+    return user_topic.id
+  })
+}
 
+//This is my mess
+function fetchFollowerTopics(){
+  return fetch("http://localhost:3000/follower_topics").then((resp) => resp.json())
+}
 function deleteFollowerTopics(joinArray){
   fetch(`http://localhost:3000/follower_topics/1`, {
     method: 'DELETE'
   })
 }
-
-function deleteJoinHandler(){
-  return fetchJoins().then((json) => joinIdArray(json)).then((array) => deleteJoins(array))
-}
-
 function createFollowerTopics(){
   const config = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'}
   }
   return fetch('http://localhost:3000/follower_topics', config)
-    .then(response => response.json())
-    .then(function(obj){
-      console.log(obj)
-    })
+  .then(response => response.json())
+  // .then(function(obj) { console.log(obj) } )
 }
-
 function reseedData(obj){
   fetchFollowerTopics().then(joinArray => deleteFollowerTopics(joinArray)).then(createFollowerTopics())
 }
 
 //----------------Update DOM-------------
-
-function talkToUser(str) {
-  userMessage.innerText = str
+function initializeDom(){
+  deleteUserTopicsHandler()
+  roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
+  fetchPlayers().then(playerList => initializePlayers(playerList))
 }
+function initializePlayers(playerList){
+  playerList.forEach(function(player){
+    const playerDiv = document.createElement('div')
+    const heading = document.createElement('h2')
+    const ul = document.createElement('ul')
+    heading.innerHTML = `Player ${player.user_name}`
+    playerDiv.className = "grid-item players"
+    playerDiv.dataset.id = player.id
+    playerDiv.append(heading)
+    playerDiv.append(ul)
+    gridder.prepend(playerDiv)
+  })
 
-function passTopicsToDOM(){
-  fetchTopics().then(slapTopicsToDOM)
+  initializeTopics()
 }
-
-function slapTopicsToDOM(topics){
-  const players = document.querySelectorAll('.players')
-  Array.from(players).forEach(function(playerDiv, i){
+function initializeTopics(){
+  fetchTopics().then(slapInitTopicsToDOM)
+}
+function slapInitTopicsToDOM(topics){
+  const playerDivs = document.querySelectorAll('.players')
+  playerDivs.forEach(function(playerDiv, i){
     const ul = playerDiv.querySelector('ul')
-    ul.addEventListener('click', topicHandler)
+    ul.addEventListener('click', handleBoxClick)
     topics.forEach(function(topic){
       const li = document.createElement('li')
       const checkbox = document.createElement('input')
@@ -178,87 +157,71 @@ function slapTopicsToDOM(topics){
     })
   })
 }
-
-function displayTopics(){
-  passTopicsToDOM()
-}
-
-function displayPlayers(){
-  deleteJoinHandler()
-  roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
-  fetchPlayers().then(function(playerList){
-    playerList.forEach(function(player){
-      // debugger
-      const playerDiv = document.createElement('div')
-      const heading = document.createElement('h2')
-      const ul = document.createElement('ul')
-      heading.innerHTML = `Player ${player.user_name}`
-      playerDiv.className = "grid-item players"
-      playerDiv.dataset.id = player.id
-      playerDiv.append(heading)
-      playerDiv.append(ul)
-      gridder.prepend(playerDiv)
-
-    })
-    displayTopics()
-  })
-}
-
-function createUserTopicData(json, e) {
+function addUserTopicDataSetToBox(json, e) {
   e.target.dataset.userTopicId = json.id
 }
 
-function alertUserTurnCount(e){
-  e.target.checked = false
-  alert("Sorry you have used all of your turns for this round.")
-}
-
-function displayChart(){
+function updatePlayerPowerInSpan(){
   const spans = document.querySelectorAll('span')
   spans.forEach(function(span){
     let id = span.id.slice(6)
     span.innerHTML = playerPower[id]
   })
 }
+function updatePlayerPowerInChart(){
+  for (let i = 1; i < 4; i++){
+    fetchPlayer(i).then(function(player){
+      playerPower[i] = 0
+      player.followers.forEach(function(followers){
+        playerPower[i] += followers.followers_for_topic.length
+      })
+    }).then(() => updatePlayerPowerInSpan());
+  }
+}
+function resetPlayerPowerInSpan(){
+  const spans = document.querySelectorAll('span')
+  spans.forEach(function(span){
+    span.innerHTML = "0"
+  })
+}
+function talkToUser(str) {
+  userMessage.innerText = str
+}
+function alertUserTurnCount(e){
+  e.target.checked = false
+  alert("Sorry you have used all of your turns for this round.")
+}
+
+
+function resetCheckBoxes(){
+  const checkboxes = document.querySelectorAll('input')
+  // const boxArray = []
+  checkboxes.forEach(function(box){
+    if (box.checked === true) {
+      box.checked = false
+    }
+  })
+}
 
 //----------------Logic
 function turnUpdate(){
-  const checkboxes = document.querySelectorAll('input')
-  const boxArray = []
-  checkboxes.forEach(function(box){
-    if (box.checked === true) {
-      boxArray.push(box)
-    }
-  })
-
   if (turncount > 0) {
     turncount -= 1;
-    playerMoves[1] = maxMoves
-    playerMoves[2] = maxMoves
-    playerMoves[3] = maxMoves
+    resetMoves()
 
     turnCountToDOM()
-    // updateCreatePlayerTopic(boxArray)
-    for (let i = 1; i < 4; i++){
-      getFollowers(i).then(function(json){
-        playerPower[i] = json.followers.length
-      }).then(() => displayChart());
-    }
-
+    updatePlayerPowerInChart()
   } else {
     gameOver()
   }
 }
 
-// function linkToChart(userTopic){
-//   // debugger
-//   for (let i = 1; i < 4; i++){
-//     getFollowers(i).then(function(json){
-//       // debugger
-//       playerPower[i] = json.followers.length
-//     }).then(() => displayChart());
-//   }
-// }
+function resetMoves(){
+  playerMoves[1] = maxMoves
+  playerMoves[2] = maxMoves
+  playerMoves[3] = maxMoves
+}
+
 
 function turnCountToDOM(){
   roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
@@ -266,11 +229,11 @@ function turnCountToDOM(){
 
 function turnAction(e, id){
   if (e.target.value === "on" ){
-    fetchCreateTopic(e)
+    fetchCreateUserTopic(e)
     playerMoves[id] -= 1
     e.target.value = "off"
   } else {
-    fetchDeleteTopic(e)
+    fetchDeleteUserTopic(e)
     e.target.value = "on"
   }
 }
@@ -293,11 +256,14 @@ function gameOver(){
   }
 }
 
-// function resetGame(){
-//   turncount = maxTurns;
-//   playerMoves = {1: maxMoves, 2: maxMoves, 3: maxMoves}
-//   playerPower = {1: 0, 2: 0, 3: 0}
-//   //reset checkboxes.
-//   turnCountToDOM()
-//   // reseedData()
-// }
+function resetGame(){
+  turncount = maxTurns;
+  playerMoves = {1: maxMoves, 2: maxMoves, 3: maxMoves}
+  playerPower = {1: 0, 2: 0, 3: 0}
+
+  resetCheckBoxes()
+  turnCountToDOM()
+  deleteUserTopicsHandler()
+  resetPlayerPowerInSpan()
+  // reseedData()
+}
