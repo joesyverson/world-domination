@@ -3,12 +3,17 @@ const chart = document.getElementById('chart')
 const btn = document.querySelector('button')
 const gridder = document.querySelector('.grid-container')
 const roundsRemaining = document.querySelector('#rounds-remaining')
-btn.addEventListener('click', turnUpdate)
-const maxTurns = 4
+const resetBtn = document.querySelector('#reset-btn')
 let userMessage = document.querySelector('#user-message')
+btn.addEventListener('click', turnUpdate)
+let player1 = {}
+let player2 = {}
+let player3 = {}
+// resetBtn.addEventListener('click', resetGame)
 
-let turncount = maxTurns
+const maxTurns = 4
 const maxMoves = 3
+let turncount = maxTurns
 let playerMoves = {1: maxMoves, 2: maxMoves, 3: maxMoves}
 let playerPower = {1: 0, 2: 0, 3: 0}
 
@@ -58,6 +63,24 @@ function fetchCreateTopic(e){
   .then((json) => createUserTopicData(json, e))
 }
 
+function updateCreatePlayerTopic(boxArray){
+  boxArray.forEach(function(box){
+    // debugger
+    fetch('http://localhost:3000/user_topics', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        topic_id: `${box.dataset.topicid}`,
+        user_id: `${box.id.slice(-1)}`
+      })
+    })
+    .then(linkToChart())
+  })
+  // .then(response => response.json())
+  // .then(displayChart)
+  // .then((json) => createUserTopicData(json, e))
+}
+
 function fetchDeleteTopic(e){
   const id = e.target.dataset.userTopicId
   const config = {
@@ -83,6 +106,10 @@ function fetchJoins(){
   return fetch("http://localhost:3000/user_topics").then((resp) => resp.json())
 }
 
+function fetchFollowerTopics(){
+  return fetch("http://localhost:3000/follower_topics").then((resp) => resp.json())
+}
+
 function joinIdArray(user_topics){
   return joinArray = user_topics.map(function(user_topic){
     return user_topic.id
@@ -97,8 +124,30 @@ function deleteJoins(arrayIds){
   })
 }
 
+function deleteFollowerTopics(joinArray){
+  fetch(`http://localhost:3000/follower_topics/1`, {
+    method: 'DELETE'
+  })
+}
+
 function deleteJoinHandler(){
   return fetchJoins().then((json) => joinIdArray(json)).then((array) => deleteJoins(array))
+}
+
+function createFollowerTopics(){
+  const config = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'}
+  }
+  return fetch('http://localhost:3000/follower_topics', config)
+    .then(response => response.json())
+    .then(function(obj){
+      console.log(obj)
+    })
+}
+
+function reseedData(obj){
+  fetchFollowerTopics().then(joinArray => deleteFollowerTopics(joinArray)).then(createFollowerTopics())
 }
 
 //----------------Update DOM-------------
@@ -108,7 +157,6 @@ function talkToUser(str) {
 }
 
 function passTopicsToDOM(){
-  // fetchTopics().then(json => displayTopics(json))
   fetchTopics().then(slapTopicsToDOM)
 }
 
@@ -140,7 +188,7 @@ function displayPlayers(){
   roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
   fetchPlayers().then(function(playerList){
     playerList.forEach(function(player){
-
+      // debugger
       const playerDiv = document.createElement('div')
       const heading = document.createElement('h2')
       const ul = document.createElement('ul')
@@ -175,6 +223,13 @@ function displayChart(){
 
 //----------------Logic
 function turnUpdate(){
+  const checkboxes = document.querySelectorAll('input')
+  const boxArray = []
+  checkboxes.forEach(function(box){
+    if (box.checked === true) {
+      boxArray.push(box)
+    }
+  })
 
   if (turncount > 0) {
     turncount -= 1;
@@ -182,15 +237,31 @@ function turnUpdate(){
     playerMoves[2] = maxMoves
     playerMoves[3] = maxMoves
 
-    roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
+    turnCountToDOM()
+    // updateCreatePlayerTopic(boxArray)
     for (let i = 1; i < 4; i++){
       getFollowers(i).then(function(json){
         playerPower[i] = json.followers.length
       }).then(() => displayChart());
     }
+
   } else {
     gameOver()
   }
+}
+
+// function linkToChart(userTopic){
+//   // debugger
+//   for (let i = 1; i < 4; i++){
+//     getFollowers(i).then(function(json){
+//       // debugger
+//       playerPower[i] = json.followers.length
+//     }).then(() => displayChart());
+//   }
+// }
+
+function turnCountToDOM(){
+  roundsRemaining.innerText = `Rounds Remaining: ${turncount}`
 }
 
 function turnAction(e, id){
@@ -222,4 +293,11 @@ function gameOver(){
   }
 }
 
-function resetGame
+// function resetGame(){
+//   turncount = maxTurns;
+//   playerMoves = {1: maxMoves, 2: maxMoves, 3: maxMoves}
+//   playerPower = {1: 0, 2: 0, 3: 0}
+//   //reset checkboxes.
+//   turnCountToDOM()
+//   // reseedData()
+// }

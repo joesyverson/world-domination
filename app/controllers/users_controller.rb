@@ -9,7 +9,12 @@ class UsersController < ApplicationController
     user = User.find_by(id: params[:id])
     topics = user.topics
     new_followers = user.getFollowers(topics)
+    # byebug
     render json: {id: user.id, user_name: user.user_name,  pic: user.pic, topics: topics, followers: new_followers}
+  end
+
+  def create
+    byebug
   end
 
 end
