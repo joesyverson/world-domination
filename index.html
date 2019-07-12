@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
     <script type="text/javascript" src='index.js' defer></script>
   </head>
   <body>
     <header>
-      <h1 class="game-title">W &nbsp;O &nbsp;R &nbsp;L &nbsp;D &ensp; D &nbsp;O &nbsp;M &nbsp;I &nbsp;N &nbsp;A &nbsp;T &nbsp;I &nbsp;O &nbsp;N</h1>
+      <h1 id="game-title">W &nbsp;O &nbsp;R &nbsp;L &nbsp;D &emsp; D &nbsp;O &nbsp;M &nbsp;I &nbsp;N &nbsp;A &nbsp;T &nbsp;I &nbsp;O &nbsp;N</h1>
       <div class="buttons">
         <h3 class="header-elements" id="rounds-remaining">Rounds Remaining: </h3>
         <p class="header-elements" id='user-message'>Hello World</p>
@@ -19,11 +19,14 @@
     </header>
 
     <div class="grid-container">
-      <div class="grid-item" id="chart">
-        <h2>Power Ranking:</h2>
-        <p class="stats"> Player 1 Power: <span id="power-1">0</span> </p>
-        <p class="stats"> Player 2 Power: <span id="power-2">0</span> </p>
-        <p class="stats"> Player 3 Power: <span id="power-3">0</span> </p>
+      <div class="grid-item power-div" id="chart">
+        <h2>Power Ranking</h2>
+          <div class="power-ranking">
+            <br>
+            <p class="stats"> Player One: <span id="power-1">0</span> </p>
+            <p class="stats"> Player Two: <span id="power-2">0</span> </p>
+            <p class="stats"> Player Three: <span id="power-3">0</span> </p>
+          </div>
       </div>
     </div>
 

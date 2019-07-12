@@ -144,10 +144,13 @@ function displayPlayers(){
       const playerDiv = document.createElement('div')
       const heading = document.createElement('h2')
       const ul = document.createElement('ul')
+      const br = document.createElement('br')
+      heading.className = 'player-heading'
       heading.innerHTML = `Player ${i}`
       playerDiv.className = "grid-item players"
       playerDiv.dataset.id = player.id
       playerDiv.append(heading)
+      playerDiv.append(br)
       playerDiv.append(ul)
       gridder.prepend(playerDiv)
       i -= 1
