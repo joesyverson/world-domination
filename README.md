@@ -9,7 +9,7 @@
 * Every player gets three moves per turn, and there are four turns. Before beginning, select your player -- `Politician 1`, `Politician 2`, or `Politician 3`.
 * For the first turn, select three issues from those provided in your player section that you sympathize with most.
 
-![](./demo-gifs/00-game-init.gif)
+![](./demo-gifs/01-first-round-gameplay.gif)
 
 * Click `End Turn` at the top of the screen when all players have selected their three most important issues. Then, read the `Power Ranking` section to see how many followers you gained by sharing an issue of concern with them.
 * Observe which player has the most power (quantity of followers) and note the issues they chose to gain that power.
