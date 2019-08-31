@@ -32,4 +32,6 @@
 * The interface requires scrolling up and down in order to keep track of game updates, making for an awkward gaming experience that virtually counteracts the power of Javascript to update the DOM.
 * Resetting the game does not reset or update the message declaring who won the previous game.
 
-#### Developed over the course of about five days by Joe Jamsky and Joseph Syverson
+#### Developed over the course of about five days by Joe Jamsky and Joseph Syverson (Summer 2019)
+
+https://github.com/joesyverson/world-domination
