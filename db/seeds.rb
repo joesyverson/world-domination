@@ -44,5 +44,7 @@ len = topic_array.length
 # end
 
 for i in 0..80
-  follower_array[i].topics << topic_array[rand 0..len]
+  for j in 0..4
+    follower_array[i].topics << topic_array[rand 0..len]
+  end
 end
