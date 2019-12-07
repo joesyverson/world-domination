@@ -38,7 +38,8 @@ topic_array << Topic.create(title: "Cannibalism")
 topic_array << Topic.create(title: "I Should Go to Sleep")
 
 
-len = topic_array.length
+len = topic_array.length - 1
+
 # for i in 0..2
   # user_array[i].topics << topic_array[rand 0..9]
 # end
